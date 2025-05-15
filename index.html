@@ -1,27 +1,1686 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Page in Progress</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-color: #012733;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-    }
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/AR-js-org/AR.js/3.4.2/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <style>
+      /* Welcome screen styles */
+      #welcomeScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #012733;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+      
+      #welcomeMessage {
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 24px;
+        margin-bottom: 30px;
+        text-align: center;
+        padding: 0 20px;
+        color: #b7bb9d;
+      }
+      
+      #startButton {
+        background-color: #b7bb9d;
+        border: none;
+        color: #012733;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden">
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen">
+      <div id="welcomeMessage">Scan de QR code</div>
+      <button id="startButton">OK</button>
+    </div>
+    
+    <!-- Debug info panel - only shown when needed -->
+    <div id="debugInfo"></div>
+    
+    <!-- AR Scene - initially hidden -->
+    <a-scene id="arScene" embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" visible="false">
+      
+      <a-assets>
+        <a-asset-item id="model_background" src="model_background.glb"></a-asset-item>
+        <a-asset-item id="model_01" src="model_01.glb"></a-asset-item>
+        <a-asset-item id="model_02" src="model_04.glb"></a-asset-item>
+        <a-asset-item id="model_03" src="model_03.glb"></a-asset-item>
+        <a-asset-item id="model_04" src="model_02.glb"></a-asset-item>
+        <a-asset-item id="model_05" src="model_05.glb"></a-asset-item>
+        <a-asset-item id="model_06" src="model_06.glb"></a-asset-item>
+        
+        
+        <!-- videos -->
+        <video id="video1" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="melissa1.mp4" type="video/mp4" />
+        </video>
+        
+        <video id="video2" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="melissa2.mp4" type="video/mp4" />
+        </video>
 
-    h1 {
-      color: #b7bb9d;
-      font-size: 2em;
-    }
-  </style>
-</head>
-<body>
-  <h1>in progress...</h1>
-</body>
+        <video id="video8" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="melissa3.mp4" type="video/mp4" />
+        </video>
+        
+        <video id="video9" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="melissa1.mp4" type="video/mp4" />
+        </video>
+
+
+        <video id="video4" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_flagstone1.mp4" type="video/mp4" />
+        </video>
+        
+        <video id="video10" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_flagstone2.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video11" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_flagstone3.mp4" type="video/mp4" />
+        </video>
+        
+        <video id="video12" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_flagstone4.mp4" type="video/mp4" />
+        </video>
+
+
+        <video id="video3" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_lune1.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video13" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_lune2.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video14" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_lune3.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video15" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_lune4.mp4" type="video/mp4" />
+        </video>
+
+
+        <video id="video5" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_tide1.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video16" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_tide2.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video17" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_tide3.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video18" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="myrthe_tide4.mp4" type="video/mp4" />
+        </video>
+
+
+        <video id="video6" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="murat1" type="video/mp4" />
+        </video>
+
+        <video id="video7" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="murat2.mp4" type="video/mp4" />
+        </video>
+
+        <video id="video19" autoplay loop muted playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="murat3.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Frame images for video borders -->
+        <img id="frame1" src="Asset16_frame.png" crossorigin="anonymous">
+        <img id="frame2" src="Asset16_frame.png" crossorigin="anonymous">
+
+      </a-assets>
+
+      <!-- Marker 1 Melissa --------------------------------------------------------------------------------------------------------------------------->
+      <a-marker id="marker1" type="pattern" url="Marker1.patt"
+      
+      smooth="true" 
+      smoothCount="10" 
+      smoothTolerance="0.01" 
+      smoothThreshold="2">
+      
+        <!-- Video container 1 -->
+        <a-entity id="videoContainer1" position="1.7 0.4 -0.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 1 -->
+          <a-video 
+            src="#video1" 
+            id="videoPlane1"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 1 -->
+          <a-image 
+            src="#frame1" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 2 -->
+        <a-entity id="videoContainer2" position="0.2 0.1 -0.7" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 2 -->
+          <a-video 
+            src="#video2"
+            id="videoPlane2"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 2 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 8 -->
+        <a-entity id="videoContainer8" position="-1.2 0.2 0.2" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 8 -->
+          <a-video 
+            src="#video8"
+            id="videoPlane2"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 8 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 9 -->
+        <a-entity id="videoContainer9" position="0.6 0.2 1.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 9 -->
+          <a-video 
+            src="#video9"
+            id="videoPlane2"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 9 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+        
+        <!-- Model Background -->
+        <a-entity
+          id="backgroundModel1"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_background"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+
+        <!-- Model  -->
+        <a-entity
+          id="model_melissa"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_01"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+      </a-marker>
+
+      <!-- Marker 2 Mirthe Janus Tide --------------------------------------------------------------------------------------------------------------------------->
+      <a-marker id="marker2" type="pattern" url="Marker2.patt"
+      
+      smooth="true" 
+      smoothCount="10" 
+      smoothTolerance="0.01" 
+      smoothThreshold="2">
+      
+<!-- Video container 5 -->
+        <a-entity id="videoContainer5" position="1.7 0.4 -0.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 1 -->
+          <a-video 
+            src="#video5" 
+            id="videoPlane5"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 1 -->
+          <a-image 
+            src="#frame1" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 16 -->
+        <a-entity id="videoContainer16" position="0.2 0.2 -0.7" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 2 -->
+          <a-video 
+            src="#video16"
+            id="videoPlane16"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 2 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 17 -->
+        <a-entity id="videoContainer17" position="-1.2 0.2 0.2" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 8 -->
+          <a-video 
+            src="#video17"
+            id="videoPlane17"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 8 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 12 -->
+        <a-entity id="videoContainer18" position="0.6 0.2 1.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 9 -->
+          <a-video 
+            src="#video18"
+            id="videoPlane18"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 9 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        
+        
+        <!-- Model Background -->
+        <a-entity
+          id="backgroundModel2"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_background"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+
+        <!-- Model  -->
+        <a-entity
+          id="model_mirthe"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_02"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+      </a-marker>
+      
+      <!-- Marker 3 Flagstone--------------------------------------------------------------------------------------------------------------------------->
+      <a-marker id="marker3" type="pattern" url="Marker3.patt"
+      
+      smooth="true" 
+      smoothCount="10" 
+      smoothTolerance="0.01" 
+      smoothThreshold="2">
+      
+        <!-- Video container 4 -->
+        <a-entity id="videoContainer4" position="1.7 0.4 -0.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 1 -->
+          <a-video 
+            src="#video4" 
+            id="videoPlane4"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 1 -->
+          <a-image 
+            src="#frame1" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 10 -->
+        <a-entity id="videoContainer10" position="0.2 0.2 -0.7" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 2 -->
+          <a-video 
+            src="#video10"
+            id="videoPlane10"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 2 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 11 -->
+        <a-entity id="videoContainer11" position="-1.2 0.2 0.2" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 8 -->
+          <a-video 
+            src="#video11"
+            id="videoPlane11"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 8 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 12 -->
+        <a-entity id="videoContainer12" position="0.6 0.2 1.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 9 -->
+          <a-video 
+            src="#video12"
+            id="videoPlane12"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 9 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+        
+        <!-- Model Background -->
+        <a-entity
+          id="backgroundModel3"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_background"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+
+        <!-- Model  -->
+        <a-entity
+          id="model3"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_03"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+      </a-marker>
+      
+      <!-- Marker 4 Lune --------------------------------------------------------------------------------------------------------------------------->
+      <a-marker id="marker4" type="pattern" url="Marker4.patt"
+      
+      smooth="true" 
+      smoothCount="10" 
+      smoothTolerance="0.01" 
+      smoothThreshold="2">
+      
+        <!-- Video container 3 -->
+        <a-entity id="videoContainer3" position="1.7 0.4 -0.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 1 -->
+          <a-video 
+            src="#video3" 
+            id="videoPlane3"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 1 -->
+          <a-image 
+            src="#frame1" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 13 -->
+        <a-entity id="videoContainer13" position="0.2 0.2 -0.7" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 2 -->
+          <a-video 
+            src="#video13"
+            id="videoPlane13"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 2 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 11 -->
+        <a-entity id="videoContainer14" position="-1.2 0.2 0.2" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 8 -->
+          <a-video 
+            src="#video14"
+            id="videoPlane14"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 8 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 12 -->
+        <a-entity id="videoContainer15" position="0.6 0.2 1.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 9 -->
+          <a-video 
+            src="#video15"
+            id="videoPlane15"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 9 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+        
+        <!-- Model Background -->
+        <a-entity
+          id="backgroundModel4"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_background"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+
+        <!-- Model  -->
+        <a-entity
+          id="model4"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_04"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+      </a-marker>
+      
+      <!-- Marker 5 Murat --------------------------------------------------------------------------------------------------------------------------->
+      <a-marker id="marker5" type="pattern" url="Marker5.patt"
+      
+      smooth="true" 
+      smoothCount="10" 
+      smoothTolerance="0.01" 
+      smoothThreshold="2">
+      
+        <!-- Video container 5 -->
+        <a-entity id="videoContainer6" position="1.7 0.4 -0.3" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 1 -->
+          <a-video 
+            src="#video6" 
+            id="videoPlane6"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 1 -->
+          <a-image 
+            src="#frame1" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 16 -->
+        <a-entity id="videoContainer7" position="0.2 0.2 -0.7" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 2 -->
+          <a-video 
+            src="#video7"
+            id="videoPlane7"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 2 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+
+        <!-- Video container 17 -->
+        <a-entity id="videoContainer19" position="-1.2 0.2 0.2" rotation="-90 0 0" scale="0 0 0">
+          <!-- Video 8 -->
+          <a-video 
+            src="#video19"
+            id="videoPlane19"
+            width="1.155"
+            height="0.62986"
+            position="0 0 0"
+            material="shader: flat; true; depthTest: true; alphaTest: 0.01; opacity: 1; transparent: true;">
+          </a-video>
+          
+          <!-- Frame/Border for Video 8 -->
+          <a-image 
+            src="#frame2" 
+            width="1.265" 
+            height="0.68486"
+            position="0 0 0.02" 
+            material="transparent: true; alphaTest: 0.4; opacity: 1; depthTest: true;">
+          </a-image>
+        </a-entity>
+        
+        <!-- Model Background -->
+        <a-entity
+          id="backgroundModel5"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_background"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+
+        <!-- Model  -->
+        <a-entity
+          id="model5"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_05"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+      </a-marker>
+      
+      <!-- Marker 6 --------------------------------------------------------------------------------------------------------------------------->
+      <a-marker id="marker6" type="pattern" url="Marker6.patt"
+      
+      smooth="true" 
+      smoothCount="10" 
+      smoothTolerance="0.01" 
+      smoothThreshold="2">
+        
+        <!-- Model Background -->
+        <a-entity
+          id="backgroundModel6"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_background"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+
+        <!-- Model  -->
+        <a-entity
+          id="model6"
+          scale="0.6 0.6 0.6"
+          animation-mixer="loop: repeat"
+          gltf-model="#model_06"
+          position="0 0 0"
+          rotation="0 0 0"
+          material="shader: flat; transparent: true; depthWrite: true;">
+        </a-entity>
+      </a-marker>
+
+
+
+      <!-- Camera -->
+      <a-entity camera></a-entity>
+      <a-light type="ambient" color="#FFFFFF" intensity="1.2"></a-light>
+
+    </a-scene>
+
+    <script>
+      // Get DOM elements
+      const welcomeScreen = document.getElementById('welcomeScreen');
+      const startButton = document.getElementById('startButton');
+      const arScene = document.getElementById('arScene');
+      const debugInfo = document.getElementById('debugInfo');
+      
+      // Get video elements
+      const video1 = document.querySelector("#video1");
+      const video2 = document.querySelector("#video2");
+      const video3 = document.querySelector("#video3");
+      const video4 = document.querySelector("#video4");
+      const video5 = document.querySelector("#video5");
+      const video6 = document.querySelector("#video6");
+      const video7 = document.querySelector("#video7");
+      const video8 = document.querySelector("#video8");
+      const video9 = document.querySelector("#video9");
+      const video10 = document.querySelector("#video10");
+      const video11 = document.querySelector("#video11");
+      const video12 = document.querySelector("#video12");
+      const video13 = document.querySelector("#video13");
+      const video14 = document.querySelector("#video14");
+      const video15 = document.querySelector("#video15");
+      const video16 = document.querySelector("#video16");
+      const video17 = document.querySelector("#video17");
+      const video18 = document.querySelector("#video18");
+      const video19 = document.querySelector("#video19");
+      
+      // Get video containers
+      const videoContainer1 = document.querySelector("#videoContainer1");
+      const videoContainer2 = document.querySelector("#videoContainer2");
+      const videoContainer3 = document.querySelector("#videoContainer3");
+      const videoContainer4 = document.querySelector("#videoContainer4");
+      const videoContainer5 = document.querySelector("#videoContainer5");
+      const videoContainer6 = document.querySelector("#videoContainer6");
+      const videoContainer7 = document.querySelector("#videoContainer7");
+      const videoContainer8 = document.querySelector("#videoContainer8");
+      const videoContainer9 = document.querySelector("#videoContainer9");
+      const videoContainer10 = document.querySelector("#videoContainer10");
+      const videoContainer11 = document.querySelector("#videoContainer11");
+      const videoContainer12 = document.querySelector("#videoContainer12");
+      const videoContainer13 = document.querySelector("#videoContainer13");
+      const videoContainer14 = document.querySelector("#videoContainer14");
+      const videoContainer15 = document.querySelector("#videoContainer15");
+      const videoContainer16 = document.querySelector("#videoContainer16");
+      const videoContainer17 = document.querySelector("#videoContainer17");
+      const videoContainer18 = document.querySelector("#videoContainer18");
+      const videoContainer19 = document.querySelector("#videoContainer19");
+      
+      // Get markers
+      const marker1 = document.querySelector("#marker1");
+      const marker2 = document.querySelector("#marker2");
+      const marker3 = document.querySelector("#marker3");
+      const marker4 = document.querySelector("#marker4");
+      const marker5 = document.querySelector("#marker5");
+      const marker6 = document.querySelector("#marker6");
+      
+      // Get models - fixed ID references
+      const backgroundModel1 = document.querySelector("#backgroundModel1");
+      const backgroundModel2 = document.querySelector("#backgroundModel2");
+      const backgroundModel3 = document.querySelector("#backgroundModel3");
+      const backgroundModel4 = document.querySelector("#backgroundModel4");
+      const backgroundModel5 = document.querySelector("#backgroundModel5");
+      const backgroundModel6 = document.querySelector("#backgroundModel6");
+      const model_melissa = document.querySelector("#model_melissa");
+      const model_mirthe = document.querySelector("#model_mirthe");
+      const model3 = document.querySelector("#model3");
+      const model4 = document.querySelector("#model4");
+      const model5 = document.querySelector("#model5");
+      const model6 = document.querySelector("#model6");
+
+      // Timeouts
+      let playTimeout1, playTimeout2, playTimeout3, playTimeout4, playTimeout5, playTimeout6, playTimeout7, playTimeout8, playTimeout9, playTimeout10, playTimeout11, playTimeout12, playTimeout13, playTimeout14, playTimeout15, playTimeout16, playTimeout17, playTimeout18, playTimeout19;
+
+      let stopTimeout1, stopTimeout2, stopTimeout3, stopTimeout4, stopTimeout5, stopTimeout6, stopTimeout7, stopTimeout8, stopTimeout9, stopTimeout10, stopTimeout11, stopTimeout12, stopTimeout13, stopTimeout14, stopTimeout15, stopTimeout16, stopTimeout17, stopTimeout18, stopTimeout19;
+
+      let videosInitialized = false;
+      
+      // Debug function - only display in console
+      function debug(message) {
+        console.log(message);
+        // Uncomment the line below if you want to see debug messages on screen
+        // debugInfo.innerHTML += message + '<br>';
+      }
+      
+      // Start the AR experience when user clicks the start button
+      startButton.addEventListener('click', function() {
+        debug('Starting AR experience');
+        
+        // Hide welcome screen
+        welcomeScreen.style.display = 'none';
+        
+        // Show AR scene
+        arScene.setAttribute('visible', 'true');
+        
+        // Initialize videos
+        initializeVideos();
+      });
+      
+      // Initialize videos
+      function initializeVideos() {
+        debug('Initializing videos');
+        
+        // Pre-load videos
+        try {
+          video1.load();
+          video2.load();
+          video3.load();
+          video4.load();
+          video5.load();
+          video6.load();
+          video7.load();
+          video8.load();
+          video9.load();
+          video10.load();
+          video11.load();
+          video12.load();
+          video13.load();
+          video14.load();
+          video15.load();
+          video16.load();
+          video17.load();
+          video18.load();
+          video19.load();
+        } catch (e) {
+          debug('Error loading videos: ' + e.message);
+        }
+        
+        // Try to play and immediately pause to satisfy user interaction requirement
+        Promise.all([
+          video1.play().then(() => video1.pause()).catch(e => debug('Video 1 init failed: ' + e.message)),
+          video2.play().then(() => video2.pause()).catch(e => debug('Video 2 init failed: ' + e.message)),
+          video3.play().then(() => video3.pause()).catch(e => debug('Video 3 init failed: ' + e.message)),
+          video4.play().then(() => video4.pause()).catch(e => debug('Video 4 init failed: ' + e.message)),
+          video5.play().then(() => video5.pause()).catch(e => debug('Video 5 init failed: ' + e.message)),
+          video6.play().then(() => video6.pause()).catch(e => debug('Video 6 init failed: ' + e.message)),
+          video7.play().then(() => video7.pause()).catch(e => debug('Video 7 init failed: ' + e.message)),
+          video8.play().then(() => video8.pause()).catch(e => debug('Video 8 init failed: ' + e.message)),
+          video9.play().then(() => video9.pause()).catch(e => debug('Video 9 init failed: ' + e.message)),
+          video10.play().then(() => video10.pause()).catch(e => debug('Video 10 init failed: ' + e.message)),
+          video11.play().then(() => video11.pause()).catch(e => debug('Video 11 init failed: ' + e.message)),
+          video12.play().then(() => video12.pause()).catch(e => debug('Video 12 init failed: ' + e.message)),
+          video13.play().then(() => video13.pause()).catch(e => debug('Video 13 init failed: ' + e.message)),
+          video14.play().then(() => video14.pause()).catch(e => debug('Video 14 init failed: ' + e.message)),
+          video15.play().then(() => video15.pause()).catch(e => debug('Video 15 init failed: ' + e.message))
+        ]).then(() => {
+          videosInitialized = true;
+          debug('Videos successfully initialized');
+        }).catch(error => {
+          debug('Could not initialize videos: ' + error.message);
+        });
+      }
+      
+      // Animation function to scale up containers
+      function animateScale(element, duration) {
+        const startTime = performance.now();
+        const initialScale = 0;
+        const targetScale = 1;
+        
+        function step(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function for smoother animation (ease-out)
+          const easeProgress = 1 - Math.pow(1 - progress, 2);
+          
+          const currentScale = initialScale + (targetScale - initialScale) * easeProgress;
+          element.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+          
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          }
+        }
+        
+        requestAnimationFrame(step);
+      }
+      
+      // Video play handler functions
+      function playVideo1() {
+        debug('Attempting to play video 1');
+        
+        video1.play()
+          .then(() => {
+            debug('Video 1 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer1, 1000);
+            
+            // Stop video1 after 25 seconds of playing
+            stopTimeout1 = setTimeout(() => {
+              video1.pause();
+              videoContainer1.setAttribute('scale', '0 0 0');
+              video1.currentTime = 0;
+            }, 25000);
+          })
+          .catch(error => {
+            debug('Error playing video 1: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer1, 1000);
+          });
+      }
+      
+      function playVideo2() {
+        debug('Attempting to play video 2');
+        
+        video2.play()
+          .then(() => {
+            debug('Video 2 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer2, 1000);
+            
+            // Stop video2 after 40 seconds of playing
+            stopTimeout2 = setTimeout(() => {
+              video2.pause();
+              videoContainer2.setAttribute('scale', '0 0 0');
+              video2.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 2: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer2, 1000);
+          });
+      }
+
+      function playVideo3() {
+        debug('Attempting to play video 3');
+        
+        video3.play()
+          .then(() => {
+            debug('Video 3 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer3, 1000);
+            
+            // Stop video3 after 40 seconds of playing
+            stopTimeout3 = setTimeout(() => {
+              video3.pause();
+              videoContainer3.setAttribute('scale', '0 0 0');
+              video3.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 3: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer3, 1000);
+          });
+      }
+      
+      function playVideo4() {
+        debug('Attempting to play video 4');
+        
+        video4.play()
+          .then(() => {
+            debug('Video 4 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer4, 1000);
+            
+            // Stop video4 after 40 seconds of playing
+            stopTimeout4 = setTimeout(() => {
+              video4.pause();
+              videoContainer4.setAttribute('scale', '0 0 0');
+              video4.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 4: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer4, 1000);
+          });
+      }
+      
+      function playVideo5() {
+        debug('Attempting to play video 5');
+        
+        video5.play()
+          .then(() => {
+            debug('Video 5 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer5, 1000);
+            
+            // Stop video5 after 40 seconds of playing
+            stopTimeout5 = setTimeout(() => {
+              video5.pause();
+              videoContainer5.setAttribute('scale', '0 0 0');
+              video5.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 5: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer5, 1000);
+          });
+      }
+      
+      function playVideo6() {
+        debug('Attempting to play video 6');
+        
+        video6.play()
+          .then(() => {
+            debug('Video 6 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer6, 1000);
+            
+            // Stop video6 after 40 seconds of playing
+            stopTimeout6 = setTimeout(() => {
+              video6.pause();
+              videoContainer6.setAttribute('scale', '0 0 0');
+              video6.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 6: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer6, 1000);
+          });
+      }
+      
+      function playVideo7() {
+        debug('Attempting to play video 7');
+        
+        video7.play()
+          .then(() => {
+            debug('Video 7 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer7, 1000);
+            
+            // Stop video7 after 40 seconds of playing
+            stopTimeout7 = setTimeout(() => {
+              video7.pause();
+              videoContainer7.setAttribute('scale', '0 0 0');
+              video7.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 7: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer7, 1000);
+          });
+      }
+
+      function playVideo8() {
+        debug('Attempting to play video 8');
+        
+        video8.play()
+          .then(() => {
+            debug('Video 8 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer8, 1000);
+            
+            // Stop video8 after 40 seconds of playing
+            stopTimeout8 = setTimeout(() => {
+              video8.pause();
+              videoContainer8.setAttribute('scale', '0 0 0');
+              video8.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 8: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer8, 1000);
+          });
+      }
+
+      function playVideo9() {
+        debug('Attempting to play video 9');
+        
+        video9.play()
+          .then(() => {
+            debug('Video 9 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer9, 1000);
+            
+            // Stop video9 after 40 seconds of playing
+            stopTimeout9 = setTimeout(() => {
+              video9.pause();
+              videoContainer9.setAttribute('scale', '0 0 0');
+              video9.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 9: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer9, 1000);
+          });
+      }
+
+      function playVideo10() {
+        debug('Attempting to play video 10');
+        
+        video10.play()
+          .then(() => {
+            debug('Video 10 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer10, 1000);
+            
+            // Stop video10 after 40 seconds of playing
+            stopTimeout10 = setTimeout(() => {
+              video10.pause();
+              videoContainer10.setAttribute('scale', '0 0 0');
+              video10.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 10: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer10, 1000);
+          });
+      }
+
+      function playVideo11() {
+        debug('Attempting to play video 11');
+        
+        video11.play()
+          .then(() => {
+            debug('Video 11 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer11, 1000);
+            
+            // Stop video11 after 40 seconds of playing
+            stopTimeout11 = setTimeout(() => {
+              video11.pause();
+              videoContainer11.setAttribute('scale', '0 0 0');
+              video11.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 11: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer11, 1000);
+          });
+      }
+
+      function playVideo12() {
+        debug('Attempting to play video 12');
+        
+        video12.play()
+          .then(() => {
+            debug('Video 12 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer12, 1000);
+            
+            // Stop video12 after 40 seconds of playing
+            stopTimeout12 = setTimeout(() => {
+              video12.pause();
+              videoContainer12.setAttribute('scale', '0 0 0');
+              video12.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 12: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer12, 1000);
+          });
+      }
+
+      function playVideo13() {
+        debug('Attempting to play video 13');
+        
+        video13.play()
+          .then(() => {
+            debug('Video 12 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer13, 1000);
+            
+            // Stop video13 after 40 seconds of playing
+            stopTimeout13 = setTimeout(() => {
+              video12.pause();
+              videoContainer13.setAttribute('scale', '0 0 0');
+              video13.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 13: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer13, 1000);
+          });
+      }
+
+      function playVideo14() {
+        debug('Attempting to play video 14');
+        
+        video14.play()
+          .then(() => {
+            debug('Video 14 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer14, 1000);
+            
+            // Stop video12 after 40 seconds of playing
+            stopTimeout14 = setTimeout(() => {
+              video14.pause();
+              videoContainer14.setAttribute('scale', '0 0 0');
+              video14.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 14: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer14, 1000);
+          });
+      }
+
+      function playVideo15() {
+        debug('Attempting to play video 15');
+        
+        video15.play()
+          .then(() => {
+            debug('Video 15 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer15, 1000);
+            
+            // Stop video15 after 40 seconds of playing
+            stopTimeout15 = setTimeout(() => {
+              video15.pause();
+              videoContainer15.setAttribute('scale', '0 0 0');
+              video15.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 15: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer15, 1000);
+          });
+      }
+
+      function playVideo16() {
+        debug('Attempting to play video 16');
+        
+        video16.play()
+          .then(() => {
+            debug('Video 16 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer16, 1000);
+            
+            // Stop video15 after 40 seconds of playing
+            stopTimeout16 = setTimeout(() => {
+              video16.pause();
+              videoContainer16.setAttribute('scale', '0 0 0');
+              video16.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 16: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer16, 1000);
+          });
+      }
+
+      function playVideo17() {
+        debug('Attempting to play video 17');
+        
+        video17.play()
+          .then(() => {
+            debug('Video 17 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer17, 1000);
+            
+            // Stop video15 after 40 seconds of playing
+            stopTimeout17 = setTimeout(() => {
+              video17.pause();
+              videoContainer17.setAttribute('scale', '0 0 0');
+              video17.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 17: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer17, 1000);
+          });
+      }
+
+      function playVideo18() {
+        debug('Attempting to play video 18');
+        
+        video18.play()
+          .then(() => {
+            debug('Video 18 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer18, 1000);
+            
+            // Stop video18 after 40 seconds of playing
+            stopTimeout18 = setTimeout(() => {
+              video18.pause();
+              videoContainer18.setAttribute('scale', '0 0 0');
+              video18.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 18: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer18, 1000);
+          });
+      }
+
+      function playVideo19() {
+        debug('Attempting to play video 19');
+        
+        video19.play()
+          .then(() => {
+            debug('Video 18 playing');
+            // Animate scale from 0 to 1 over 1 second
+            animateScale(videoContainer19, 1000);
+            
+            // Stop video18 after 40 seconds of playing
+            stopTimeout19 = setTimeout(() => {
+              video19.pause();
+              videoContainer19.setAttribute('scale', '0 0 0');
+              video19.currentTime = 0;
+            }, 40000);
+          })
+          .catch(error => {
+            debug('Error playing video 19: ' + error.message);
+            // Show anyway as fallback
+            animateScale(videoContainer19, 1000);
+          });
+      }
+
+      // Reset model animations function - updated to handle both markers
+      function resetModelAnimations(models) {
+        debug('Resetting model animations');
+        
+        models.forEach(model => {
+          try {
+            if (model) {
+              // Get the 3D model's animation component
+              const mixer = model.components["animation-mixer"];
+              if (mixer && mixer.mixer) {
+                // Access the THREE.js animation mixer directly if possible
+                mixer.mixer.stopAllAction();
+                mixer.mixer.update(0);
+                // Force the component to re-initialize
+                model.removeAttribute('animation-mixer');
+                model.setAttribute('animation-mixer', 'loop: repeat; clampWhenFinished: true;');
+                debug('Model animation reset: ' + model.id);
+              } else {
+                // Fallback for when direct mixer access fails
+                model.removeAttribute('animation-mixer');
+                setTimeout(() => {
+                  model.setAttribute('animation-mixer', 'loop: repeat; clampWhenFinished: true;');
+                  debug('Model animation reset (fallback): ' + model.id);
+                }, 50);
+              }
+            }
+          } catch (e) {
+            debug('Error resetting model animations: ' + e.message);
+          }
+        });
+      }
+      
+      // Reset all videos and timers
+function resetVideos() {
+  debug('Resetting videos');
+  
+  // Clear all timeouts
+  clearTimeout(playTimeout1);
+  clearTimeout(playTimeout2);
+  clearTimeout(playTimeout3);
+  clearTimeout(playTimeout4);
+  clearTimeout(playTimeout5);
+  clearTimeout(playTimeout6);
+  clearTimeout(playTimeout7);
+  clearTimeout(playTimeout8);
+  clearTimeout(playTimeout9);
+  clearTimeout(stopTimeout1);
+  clearTimeout(stopTimeout2);
+  clearTimeout(stopTimeout3);
+  clearTimeout(stopTimeout4);
+  clearTimeout(stopTimeout5);
+  clearTimeout(stopTimeout6);
+  clearTimeout(stopTimeout7);
+  clearTimeout(stopTimeout8);
+  clearTimeout(stopTimeout9);
+  clearTimeout(stopTimeout10);
+  clearTimeout(stopTimeout11);
+  clearTimeout(stopTimeout12);
+  clearTimeout(stopTimeout13);
+  clearTimeout(stopTimeout14);
+  clearTimeout(stopTimeout15);
+  clearTimeout(stopTimeout16);
+  clearTimeout(stopTimeout17);
+  clearTimeout(stopTimeout18);
+  clearTimeout(stopTimeout19);
+
+  // Reset video containers to minimum scale
+  videoContainer1.setAttribute('scale', '0 0 0');
+  videoContainer2.setAttribute('scale', '0 0 0');
+  videoContainer3.setAttribute('scale', '0 0 0');
+  videoContainer4.setAttribute('scale', '0 0 0');
+  videoContainer5.setAttribute('scale', '0 0 0');
+  videoContainer6.setAttribute('scale', '0 0 0');
+  videoContainer7.setAttribute('scale', '0 0 0');
+  videoContainer8.setAttribute('scale', '0 0 0');
+  videoContainer9.setAttribute('scale', '0 0 0');
+  videoContainer10.setAttribute('scale', '0 0 0');
+  videoContainer11.setAttribute('scale', '0 0 0');
+  videoContainer12.setAttribute('scale', '0 0 0');
+  videoContainer13.setAttribute('scale', '0 0 0');
+  videoContainer14.setAttribute('scale', '0 0 0');
+  videoContainer15.setAttribute('scale', '0 0 0');
+  videoContainer16.setAttribute('scale', '0 0 0');
+  videoContainer17.setAttribute('scale', '0 0 0');
+  videoContainer18.setAttribute('scale', '0 0 0');
+  videoContainer19.setAttribute('scale', '0 0 0');
+
+
+  // Reset videos
+  try {
+    video1.pause();
+    video2.pause();
+    video3.pause();
+    video4.pause();
+    video5.pause();
+    video6.pause();
+    video7.pause();
+    video8.pause();
+    video9.pause();
+    video10.pause();
+    video11.pause();
+    video12.pause();
+    video13.pause();
+    video14.pause();
+    video15.pause();
+    video16.pause();
+    video17.pause();
+    video18.pause();
+    video19.pause();
+    video1.currentTime = 0;
+    video2.currentTime = 0;
+    video3.currentTime = 0;
+    video4.currentTime = 0;
+    video5.currentTime = 0;
+    video6.currentTime = 0;
+    video7.currentTime = 0;
+    video8.currentTime = 0;
+    video9.currentTime = 0;
+    video10.currentTime = 0;
+    video11.currentTime = 0;
+    video12.currentTime = 0;
+    video13.currentTime = 0;
+    video14.currentTime = 0;
+    video15.currentTime = 0;
+    video16.currentTime = 0;
+    video17.currentTime = 0;
+    video18.currentTime = 0;
+    video19.currentTime = 0;
+  } catch (e) {
+    debug('Error in reset: ' + e.message);
+  }
+}
+
+// Set up marker 1 events (Melissa)
+marker1.addEventListener("markerFound", () => {
+  debug('Marker 1 found');
+  
+  // Reset marker 1 models
+  resetModelAnimations([backgroundModel1, model_melissa]);
+
+  // Reset everything first to handle reconnection properly
+  resetVideos();
+  
+  // Delay video1 by 5 seconds
+  playTimeout1 = setTimeout(playVideo1, 15000);
+
+  // Delay video2 by 2 seconds
+  playTimeout2 = setTimeout(playVideo2, 9000);
+
+  // Delay video2 by 2 seconds
+  playTimeout8 = setTimeout(playVideo8, 12000);
+
+  // Delay video2 by 2 seconds
+  playTimeout9 = setTimeout(playVideo9, 6000);
+});
+
+marker1.addEventListener("markerLost", () => {
+  debug('Marker 1 lost');
+  resetVideos();
+});
+
+// Set up marker 2 events (Mirthe)
+marker2.addEventListener("markerFound", () => {
+  debug('Marker 2 found');
+  
+  // Reset marker 2 models
+  resetModelAnimations([backgroundModel2, model_mirthe]);
+
+  // Reset everything first to handle reconnection properly
+  resetVideos();
+  
+  // Play video 3 for marker 2
+  playTimeout5 = setTimeout(playVideo5, 15000);
+
+  // Delay video2 by 2 seconds
+  playTimeout16 = setTimeout(playVideo16, 9000);
+
+  // Delay video2 by 2 seconds
+  playTimeout17 = setTimeout(playVideo17, 12000);
+
+  // Delay video2 by 2 seconds
+  playTimeout18 = setTimeout(playVideo18, 6000);
+});
+
+marker2.addEventListener("markerLost", () => {
+  debug('Marker 2 lost');
+  resetVideos();
+});
+
+// Set up marker 3 events
+marker3.addEventListener("markerFound", () => {
+  debug('Marker 3 found');
+  
+  // Reset marker 3 models
+  resetModelAnimations([backgroundModel3, model3]);
+
+  // Reset everything first to handle reconnection properly
+  resetVideos();
+  
+  // Play video 4 for marker 3
+  // Delay video1 by 5 seconds
+  playTimeout4 = setTimeout(playVideo4, 15000);
+
+  // Delay video2 by 2 seconds
+  playTimeout10 = setTimeout(playVideo10, 9000);
+
+  // Delay video2 by 2 seconds
+  playTimeout11 = setTimeout(playVideo11, 12000);
+
+  // Delay video2 by 2 seconds
+  playTimeout12 = setTimeout(playVideo12, 6000);
+});
+
+marker3.addEventListener("markerLost", () => {
+  debug('Marker 3 lost');
+  resetVideos();
+});
+
+// Set up marker 4 events
+marker4.addEventListener("markerFound", () => {
+  debug('Marker 4 found');
+  
+  // Reset marker 4 models
+  resetModelAnimations([backgroundModel4, model4]);
+
+  // Reset everything first to handle reconnection properly
+  resetVideos();
+  
+  playTimeout15 = setTimeout(playVideo15, 15000);
+
+  // Delay video2 by 2 seconds
+  playTimeout14 = setTimeout(playVideo14, 9000);
+
+  // Delay video2 by 2 seconds
+  playTimeout13 = setTimeout(playVideo13, 12000);
+
+  // Delay video2 by 2 seconds
+  playTimeout3 = setTimeout(playVideo3, 6000);
+});
+
+marker4.addEventListener("markerLost", () => {
+  debug('Marker 4 lost');
+  resetVideos();
+});
+
+// Set up marker 5 events
+marker5.addEventListener("markerFound", () => {
+  debug('Marker 5 found');
+  
+  // Reset marker 5 models
+  resetModelAnimations([backgroundModel5, model5]);
+
+  // Reset everything first to handle reconnection properly
+  resetVideos();
+  
+  // Play video 6 for marker 5
+  playTimeout6 = setTimeout(playVideo6, 15000);
+
+  // Delay video2 by 2 seconds
+  playTimeout7 = setTimeout(playVideo7, 9000);
+
+  // Delay video2 by 2 seconds
+  playTimeout19 = setTimeout(playVideo19, 12000);
+
+});
+
+marker5.addEventListener("markerLost", () => {
+  debug('Marker 5 lost');
+  resetVideos();
+});
+
+// Set up marker 6 events
+marker6.addEventListener("markerFound", () => {
+  debug('Marker 6 found');
+  
+  // Reset marker 6 models
+  resetModelAnimations([backgroundModel6, model6]);
+
+  // Reset everything first to handle reconnection properly
+  resetVideos();
+});
+
+marker6.addEventListener("markerLost", () => {
+  debug('Marker 6 lost');
+  resetVideos();
+});
+
+// Extra event to help with iOS video playback
+document.addEventListener('touchstart', function() {
+  if (!videosInitialized) {
+    debug('Touch event - trying to initialize videos again');
+    initializeVideos();
+  }
+}, {once: true});
+    </script>
+  </body>
 </html>
